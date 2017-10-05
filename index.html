@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Birth Year Fact</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+        crossorigin="anonymous">
+    <style>
+        #fact {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card mt-5 bg-primary text-white p-4">
+                    <h1>Know your birth</h1>
+                    <input type="number" min="0" max="9999" id="numberInput" title="Enter your year of birth" placeholder="Enter your year of birth"
+                        class="form-control form-control-lg">
+                    <div id="fact" class="card-body">
+                        <h3 class="card-title">
+                            Fact
+                        </h3>
+                        <hr />
+                        <p id="factText" class="card-text text-justify">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam eaque sequi consectetur minus fuga asperiores sint, numquam
+                            molestias, praesentium qui et in. Itaque esse suscipit officia ad et optio veritatis.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /// local variables....
+        let fact = document.querySelector("#fact");
+        let factText = document.querySelector("#factText");
+        let numberInput = document.querySelector("#numberInput");
+
+        /// Function to handle XHR call to fetch FACT
+        getFactXHR = function () {
+
+            /// value of the i/p
+            let numberInputValue = numberInput.value;
+
+            /// status
+            if (numberInputValue !== "") {
+
+                /// XHR Request
+                let xhr = new XMLHttpRequest();
+
+                /// open
+                xhr.open("GET", "http://numbersapi.com/" + numberInputValue + "/year");
+
+                /// onload
+                xhr.onload = function () {
+
+                    /// status
+                    if (this.status === 200 && numberInputValue !== "") {
+
+                        /// display the fact..
+                        fact.style.display = "block";
+                        factText.innerText = this.responseText;
+                    }
+                    else {
+
+                        /// hide the fact..
+                        fact.style.display = "none";
+                        factText.innerText = "";
+                    }
+                }
+
+                /// send
+                xhr.send();
+            }
+        };
+
+        /// Function to handle Fetch call to fetch FACT
+        getFactFetch = function () {
+
+            /// value of the i/p
+            let numberInputValue = numberInput.value;
+
+            /// status
+            if (numberInputValue !== "") {
+
+                fetch("http://numbersapi.com/" + numberInputValue + "/year")
+                    .then(resp => resp.text())
+                    .then(data => {
+
+                        /// display the fact..
+                        fact.style.display = "block";
+                        factText.innerText = data;
+                    })
+                    .catch(err => console.log(err))
+            }
+            else {
+                /// hide the fact..
+                fact.style.display = "none";
+                factText.innerText = "";
+            }
+        };
+
+        /// Add the query listener...
+        document.addEventListener("input", getFactFetch);
+    </script>
+</body>
+
+</html>
