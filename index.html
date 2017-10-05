@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Birth Year Fact</title>
+    <title>Know your birth year facts</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
         crossorigin="anonymous">
     <style>
@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-md-6 mx-auto">
                 <div class="card mt-5 bg-primary text-white p-4">
-                    <h1>Know your birth</h1>
+                    <h4 class="text-center">Know what happened on your year of birth</h4>
                     <input type="number" min="0" max="9999" id="numberInput" title="Enter your year of birth" placeholder="Enter your year of birth"
                         class="form-control form-control-lg">
                     <div id="fact" class="card-body">
@@ -57,7 +57,8 @@
                 let xhr = new XMLHttpRequest();
 
                 /// open
-                xhr.open("GET", "http://numbersapi.com/" + numberInputValue + "/year");
+                xhr.open("GET", "https://numbersapi.p.mashape.com/" + numberInputValue + "/year");
+                xhr.setRequestHeader('X-Mashape-Key', 'mYilEtkHDhmshyjPPazmFe0ORGZep1R327ZjsnDYe8i2HOa9hM');
 
                 /// onload
                 xhr.onload = function () {
@@ -91,7 +92,17 @@
             /// status
             if (numberInputValue !== "") {
 
-                fetch("http://numbersapi.com/" + numberInputValue + "/year")
+                // set the header
+                var header = new Headers();
+                header.append('X-Mashape-Key', 'mYilEtkHDhmshyjPPazmFe0ORGZep1R327ZjsnDYe8i2HOa9hM');
+
+                /// init the header
+                var myInit = {
+                    method: 'GET',
+                    headers: header
+                }
+
+                fetch("https://numbersapi.p.mashape.com/" + numberInputValue + "/year", myInit)
                     .then(resp => resp.text())
                     .then(data => {
 
